@@ -1,8 +1,13 @@
-
 /*
-  ADS HOLIDAYS
-  Keep this file in the same folder as index.html.
-  WhatsApp number: country code + number, digits only.
+  ADS HOLIDAYS — Complete JavaScript
+  Features:
+  - WhatsApp trip booking
+  - Guest management
+  - Date validation
+  - Food budget calculator
+  - Destination and package selection
+  - Mobile navigation
+  - Scroll reveal animations
 */
 
 (() => {
@@ -19,9 +24,7 @@
     const toast = $("#toast");
 
     if (!guestList || !tripForm || !toast) {
-      console.error(
-        "ADS Holidays: Required HTML elements not found. Check index.html and script.js."
-      );
+      console.error("ADS Holidays: Required HTML elements are missing.");
       return;
     }
 
@@ -43,13 +46,14 @@
     }
 
     function updateFoodEstimate() {
-      const foodBudget = $("#foodBudget");
-      const foodEstimate = $("#foodEstimate");
+      const budget = $("#foodBudget");
+      const estimate = $("#foodEstimate");
 
-      if (!foodBudget || !foodEstimate) return;
+      if (!budget || !estimate) return;
 
-      const perGuest = Math.max(0, Number(foodBudget.value) || 0);
-      foodEstimate.textContent = formatCurrency(perGuest * guests.length);
+      estimate.textContent = formatCurrency(
+        Math.max(0, Number(budget.value) || 0) * guests.length
+      );
     }
 
     function updateGuestSummary() {
@@ -81,53 +85,45 @@
         const row = document.createElement("div");
         row.className = "guest-row";
 
-        const nameInput = document.createElement("input");
-        nameInput.type = "text";
-        nameInput.placeholder = `Guest ${index + 1} name`;
-        nameInput.setAttribute("aria-label", `Guest ${index + 1} name`);
-        nameInput.value = guest.name;
-        nameInput.required = true;
-        nameInput.maxLength = 80;
+        const name = document.createElement("input");
+        name.type = "text";
+        name.placeholder = `Guest ${index + 1} name`;
+        name.value = guest.name;
+        name.required = true;
+        name.maxLength = 80;
 
-        nameInput.addEventListener("input", () => {
-          guests[index].name = nameInput.value;
+        name.addEventListener("input", () => {
+          guests[index].name = name.value;
         });
 
-        const ageInput = document.createElement("input");
-        ageInput.type = "number";
-        ageInput.placeholder = "Age";
-        ageInput.setAttribute("aria-label", `Guest ${index + 1} age`);
-        ageInput.min = "0";
-        ageInput.max = "120";
-        ageInput.step = "1";
-        ageInput.required = true;
-        ageInput.value = guest.age;
+        const age = document.createElement("input");
+        age.type = "number";
+        age.placeholder = "Age";
+        age.min = "0";
+        age.max = "120";
+        age.step = "1";
+        age.value = guest.age;
+        age.required = true;
 
-        ageInput.addEventListener("input", () => {
-          guests[index].age = ageInput.value;
+        age.addEventListener("input", () => {
+          guests[index].age = age.value;
           updateGuestSummary();
         });
 
-        row.append(nameInput, ageInput);
+        row.append(name, age);
 
         if (guests.length > 1) {
-          const removeButton = document.createElement("button");
-          removeButton.type = "button";
-          removeButton.className = "remove-guest";
-          removeButton.textContent = "×";
-          removeButton.setAttribute(
-            "aria-label",
-            `Remove guest ${index + 1}`
-          );
+          const remove = document.createElement("button");
+          remove.type = "button";
+          remove.className = "remove-guest";
+          remove.textContent = "×";
 
-          removeButton.addEventListener("click", () => {
+          remove.addEventListener("click", () => {
             guests.splice(index, 1);
             updateGuestList();
           });
 
-          row.appendChild(removeButton);
-        } else {
-          row.appendChild(document.createElement("span"));
+          row.appendChild(remove);
         }
 
         guestList.appendChild(row);
@@ -137,10 +133,10 @@
     }
 
     function setMinimumDates() {
-      const startDate = $("#startDate");
-      const endDate = $("#endDate");
+      const start = $("#startDate");
+      const end = $("#endDate");
 
-      if (!startDate || !endDate) return;
+      if (!start || !end) return;
 
       const today = new Date();
       const localToday = [
@@ -149,8 +145,8 @@
         String(today.getDate()).padStart(2, "0")
       ].join("-");
 
-      startDate.min = localToday;
-      endDate.min = localToday;
+      start.min = localToday;
+      end.min = localToday;
     }
 
     function openWhatsApp(message) {
@@ -166,11 +162,9 @@
     }
 
     function selectDestination(destination) {
-      const destinationSelect = $("#destination");
+      const select = $("#destination");
 
-      if (destinationSelect) {
-        destinationSelect.value = destination;
-      }
+      if (select) select.value = destination;
 
       $("#planner")?.scrollIntoView({ behavior: "smooth" });
     }
@@ -186,42 +180,38 @@
       updateGuestList();
     });
 
-    // Food budget estimate
+    // Food budget
     $("#foodBudget")?.addEventListener("input", updateFoodEstimate);
 
-    // Date validation
+    // Validate travel dates
     $("#startDate")?.addEventListener("change", () => {
-      const startDate = $("#startDate");
-      const endDate = $("#endDate");
+      const start = $("#startDate");
+      const end = $("#endDate");
 
-      if (!startDate || !endDate) return;
+      if (!start || !end) return;
 
-      endDate.min = startDate.value || startDate.min;
+      end.min = start.value || start.min;
 
-      if (
-        startDate.value &&
-        endDate.value &&
-        endDate.value < startDate.value
-      ) {
-        endDate.value = "";
+      if (start.value && end.value && end.value < start.value) {
+        end.value = "";
         showToast("Choose a return date on or after your start date.");
       }
     });
 
-    // Destination cards
+    // Destination buttons
     $$(".choose-destination").forEach((button) => {
       button.addEventListener("click", () => {
         selectDestination(button.dataset.destination);
       });
     });
 
-    // Tour packages
+    // Package selection
     $$(".package-select").forEach((button) => {
       button.addEventListener("click", () => {
-        const tripPackage = $("#tripPackage");
+        const packageSelect = $("#tripPackage");
 
-        if (tripPackage) {
-          tripPackage.value =
+        if (packageSelect) {
+          packageSelect.value =
             button.dataset.package || "Customized Trip";
         }
 
@@ -229,23 +219,23 @@
       });
     });
 
-    // Villa and room selection
+    // Villa selection
     $$(".room-select").forEach((button) => {
       button.addEventListener("click", () => {
         const room = button.dataset.room || "";
-        const destination = $("#destination");
-        const staySelect = $("#stay");
 
-        if (destination) destination.value = "Yercaud";
+        if ($("#destination")) {
+          $("#destination").value = "Yercaud";
+        }
 
-        if (staySelect) {
-          const option = [...staySelect.options].find((item) =>
+        const stay = $("#stay");
+
+        if (stay) {
+          const option = [...stay.options].find((item) =>
             item.text.toLowerCase().includes(room.toLowerCase())
           );
 
-          staySelect.value = option
-            ? option.value
-            : "Need recommendations";
+          stay.value = option ? option.value : "Need recommendations";
         }
 
         $("#planner")?.scrollIntoView({ behavior: "smooth" });
@@ -253,14 +243,14 @@
       });
     });
 
-    // General WhatsApp contact button
+    // WhatsApp contact
     $("#contactWhatsApp")?.addEventListener("click", () => {
       openWhatsApp(
         "Hi ADS Holidays! 👋\nI'd like to know more about your holiday packages and villa stays."
       );
     });
 
-    // Trip enquiry form
+    // Submit trip enquiry
     tripForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
@@ -310,13 +300,13 @@
       );
 
       const foodTotal = foodPerGuest * guests.length;
-      const selectedServices = [];
+      const services = [];
 
-      if ($("#pickupDrop")?.checked) selectedServices.push("Pickup & drop");
-      if ($("#guide")?.checked) selectedServices.push("Local guide");
-      if ($("#breakfast")?.checked) selectedServices.push("Breakfast");
-      if ($("#lunch")?.checked) selectedServices.push("Lunch");
-      if ($("#dinner")?.checked) selectedServices.push("Dinner");
+      if ($("#pickupDrop")?.checked) services.push("Pickup & drop");
+      if ($("#guide")?.checked) services.push("Local guide");
+      if ($("#breakfast")?.checked) services.push("Breakfast");
+      if ($("#lunch")?.checked) services.push("Lunch");
+      if ($("#dinner")?.checked) services.push("Dinner");
 
       const guestDetails = guests.map((guest, index) => {
         const age = Number(guest.age);
@@ -348,8 +338,8 @@
         ...guestDetails,
         "",
         "*Requested services:*",
-        ...(selectedServices.length
-          ? selectedServices.map((service) => `• ${service}`)
+        ...(services.length
+          ? services.map((service) => `• ${service}`)
           : ["• No additional services selected"]),
         "",
         `🍽️ *Food budget per guest:* ${formatCurrency(foodPerGuest)}`,
@@ -388,14 +378,13 @@
       });
     });
 
-    const year = $("#year");
-    if (year) year.textContent = new Date().getFullYear();
+    if ($("#year")) {
+      $("#year").textContent = new Date().getFullYear();
+    }
 
     setMinimumDates();
     updateGuestList();
 
-    // Diagnostic: confirms that this file ran.
-    window.updateGuestSummary = updateGuestSummary;
     console.info("ADS Holidays: script.js loaded successfully.");
   }
 
@@ -406,9 +395,9 @@
   }
 })();
 
-/* ==========================================
-   ADS HOLIDAYS — DYNAMIC SCROLL ENGINE
-========================================== */
+// ========================================
+// DYNAMIC SCROLL ANIMATIONS
+// ========================================
 
 (() => {
   "use strict";
@@ -418,7 +407,6 @@
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    // 1. Scroll reveal targets
     const selectors = [
       "main section h1",
       "main section h2",
@@ -438,22 +426,17 @@
       ".section-title"
     ];
 
-    const elements = document.querySelectorAll(
-      selectors.join(", ")
-    );
+    const elements = document.querySelectorAll(selectors.join(", "));
 
     if (reduceMotion || !("IntersectionObserver" in window)) {
-      elements.forEach(element => {
-        element.classList.add("visible");
-      });
+      elements.forEach((element) => element.classList.add("visible"));
     } else {
-      const revealObserver = new IntersectionObserver(
-        entries => {
-          entries.forEach(entry => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("visible");
             } else {
-              // Reveal again when scrolling back up
               entry.target.classList.remove("visible");
             }
           });
@@ -466,86 +449,56 @@
 
       elements.forEach((element, index) => {
         if (element.dataset.revealReady) return;
-
-        // Skip elements already animated by the hero
         if (element.closest(".hero")) return;
 
         element.dataset.revealReady = "true";
 
-        // Avoid animating form controls and navigation
-        if (
-          element.closest("nav, header, footer, form")
-        ) {
-          return;
-        }
+        if (element.closest("nav, header, footer, form")) return;
 
-        // Alternate directions for visual variety
-        if (element.matches("h1, h2, h3, p")) {
-          element.classList.add("reveal");
-        } else if (element.matches("img")) {
+        if (element.matches("img")) {
           element.classList.add("reveal-scale");
         } else {
           element.classList.add("reveal");
         }
 
-        element.style.transitionDelay =
-          `${(index % 4) * 80}ms`;
-
-        revealObserver.observe(element);
+        element.style.transitionDelay = `${(index % 4) * 80}ms`;
+        observer.observe(element);
       });
     }
 
-    // 2. Navbar shadow after scrolling
-    const navElements = document.querySelectorAll(
-      "nav, .navbar"
-    );
+    // Navbar shadow on scroll
+    const navElements = document.querySelectorAll("nav, .navbar");
 
     function updateNavbar() {
-      const scrolled = window.scrollY > 25;
-
-      navElements.forEach(nav => {
-        nav.classList.toggle("nav-scrolled", scrolled);
+      navElements.forEach((nav) => {
+        nav.classList.toggle("nav-scrolled", window.scrollY > 25);
       });
     }
 
-    window.addEventListener("scroll", updateNavbar, {
-      passive: true
-    });
-
+    window.addEventListener("scroll", updateNavbar, { passive: true });
     updateNavbar();
 
-    // 3. Smooth anchor navigation
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener("click", event => {
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener("click", (event) => {
         const targetId = link.getAttribute("href");
-
         if (!targetId || targetId === "#") return;
 
         const target = document.querySelector(targetId);
-
         if (!target) return;
 
         event.preventDefault();
-
-        target.scrollIntoView({
-          behavior: reduceMotion ? "auto" : "smooth",
-          block: "start"
-        });
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
 
-    console.info(
-      "ADS Holidays: scroll animations initialized."
-    );
+    console.info("ADS Holidays: scroll effects loaded.");
   }
 
-  // Start after the HTML is ready
   if (document.readyState === "loading") {
-    document.addEventListener(
-      "DOMContentLoaded",
-      initScrollEffects,
-      { once: true }
-    );
+    document.addEventListener("DOMContentLoaded", initScrollEffects, {
+      once: true
+    });
   } else {
     initScrollEffects();
   }
