@@ -510,3 +510,121 @@ textarea:focus {
     transition: none;
   }
 }
+
+/* ===== ADS HOLIDAYS CINEMATIC ANIMATIONS ===== */
+
+.reveal-up,
+.reveal-left,
+.reveal-right,
+.reveal-zoom {
+  opacity: 0;
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+
+.reveal-up {
+  transform: translateY(65px);
+}
+
+.reveal-left {
+  transform: translateX(-65px);
+}
+
+.reveal-right {
+  transform: translateX(65px);
+}
+
+.reveal-zoom {
+  transform: scale(.85);
+}
+
+.reveal-up.show,
+.reveal-left.show,
+.reveal-right.show,
+.reveal-zoom.show {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+
+/* Cinematic image hover */
+.destination-card,
+.package-card,
+.villa-card,
+.image-card {
+  overflow: hidden;
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.destination-card img,
+.package-card img,
+.villa-card img,
+.image-card img {
+  transition: transform .8s cubic-bezier(.2,.7,.2,1);
+}
+
+.destination-card:hover img,
+.package-card:hover img,
+.villa-card:hover img,
+.image-card:hover img {
+  transform: scale(1.08);
+}
+
+.destination-card:hover,
+.package-card:hover,
+.villa-card:hover,
+.image-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0,0,0,.15);
+}
+
+/* Hero background movement */
+.hero {
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+
+/* Button animation */
+.btn,
+.button,
+button {
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.btn:hover,
+.button:hover,
+button:hover {
+  transform: translateY(-3px);
+}
+
+/* Mobile compatibility */
+@media (max-width: 768px) {
+  .hero {
+    background-attachment: scroll;
+  }
+
+  .reveal-left,
+  .reveal-right {
+    transform: translateY(35px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-up,
+  .reveal-left,
+  .reveal-right,
+  .reveal-zoom {
+    opacity: 1;
+    transform: none;
+  }
+}
