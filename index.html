@@ -1,132 +1,22 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="style.css">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ADS Tours & Travels</title>
-  <meta name="description" content="Discover Kodaikanal and Yercaud with ADS Tours & Travels. Villa stays, pickup and personalised trips.">
-  <style>
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f5ed;
-      color: #203b30;
-    }
-    header {
-      padding: 20px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #fffef9;
-    }
-    .logo { font-size: 25px; font-weight: 800; letter-spacing: 2px; }
-    .logo span { display: block; font-size: 10px; letter-spacing: 3px; }
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #203b30;
-      font-size: 14px;
-    }
-    .hero {
-      min-height: 570px;
-      padding: 100px 8%;
-      display: flex;
-      align-items: center;
-      color: white;
-      background:
-        linear-gradient(90deg, #102e27e8, #102e2740),
-        url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1800&q=85")
-        center/cover;
-    }
-    .hero-content { max-width: 620px; }
-    .eyebrow {
-      color: #d8ef86;
-      font-size: 12px;
-      letter-spacing: 3px;
-      font-weight: bold;
-    }
-    h1 { font-size: clamp(44px, 7vw, 78px); line-height: 1.05; margin: 20px 0; }
-    h1 em { color: #d8ef86; }
-    .hero p { line-height: 1.8; max-width: 470px; }
-    .button {
-      display: inline-block;
-      padding: 15px 22px;
-      margin-top: 20px;
-      background: #d8ef86;
-      color: #203b30;
-      font-weight: bold;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-    }
-    section { padding: 75px 8%; }
-    .section-title { font-size: clamp(30px, 4vw, 46px); margin: 0 0 15px; }
-    .muted { color: #6d786e; line-height: 1.8; }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 25px;
-      margin-top: 35px;
-    }
-    .card { background: white; padding-bottom: 25px; }
-    .card img { width: 100%; height: 270px; object-fit: cover; display: block; }
-    .card-content { padding: 0 23px; }
-    .card h3 { font-size: 28px; margin-bottom: 8px; }
-    .stay {
-      background: #173c32;
-      color: white;
-    }
-    .stay .muted { color: #d4dfd4; }
-    .price { color: #d8ef86; font-size: 34px; font-weight: bold; }
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-    }
-    .feature { background: white; padding: 25px; }
-    .feature h3 { margin-top: 0; }
-    .booking {
-      display: grid;
-      grid-template-columns: .8fr 1fr;
-      gap: 45px;
-      align-items: start;
-    }
-    form { background: white; padding: 28px; }
-    label { display: block; font-size: 13px; font-weight: bold; margin: 15px 0 7px; }
-    input, select, textarea {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #d8ddd1;
-      background: #fffef9;
-      font: inherit;
-    }
-    textarea { resize: vertical; }
-    form .button { width: 100%; background: #173c32; color: white; }
-    footer { background: #102e27; color: white; padding: 35px 8%; }
-    footer p { color: #d4dfd4; font-size: 13px; }
-    @media (max-width: 700px) {
-      header { padding: 18px 5%; flex-wrap: wrap; gap: 15px; }
-      nav { width: 100%; display: flex; flex-wrap: wrap; gap: 12px; }
-      nav a { margin: 0; }
-      .hero { min-height: 530px; padding: 75px 6%; }
-      section { padding: 55px 6%; }
-      .cards, .features, .booking { grid-template-columns: 1fr; }
-      .card img { height: 230px; }
-      form { padding: 20px; }
-    }
-  </style>
+  <title>ADS Tours & Travels | Hill Station Getaways</title>
+  <meta name="description" content="Plan your Kodaikanal and Yercaud getaway with ADS Tours & Travels. Explore villa stays, pickup, drop and guided trips.">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-  <div class="logo">ADS <span>TOURS & TRAVELS</span></div>
+  <a class="logo" href="#" aria-label="ADS Tours and Travels home">
+    ADS <span>TOURS & TRAVELS</span>
+  </a>
   <nav>
     <a href="#destinations">Destinations</a>
-    <a href="#stays">Villa stays</a>
+    <a href="#stays">Villa Stays</a>
     <a href="#services">Services</a>
     <a href="#booking">Contact</a>
   </nav>
@@ -135,10 +25,10 @@
 <main>
   <section class="hero">
     <div class="hero-content">
-      <div class="eyebrow">YOUR NEXT ESCAPE STARTS HERE</div>
+      <p class="eyebrow">YOUR NEXT ESCAPE STARTS HERE</p>
       <h1>Find your<br><em>kind of escape.</em></h1>
       <p>Misty mountains, cosy stays and unforgettable memories.
-      Let ADS Tours & Travels help plan your next getaway.</p>
+        Let ADS Tours & Travels plan your next getaway.</p>
       <a class="button" href="#destinations">Explore destinations ↗</a>
     </div>
   </section>
@@ -146,23 +36,26 @@
   <section id="destinations">
     <p class="eyebrow">PICK YOUR HAPPY PLACE</p>
     <h2 class="section-title">Two hills. Endless stories.</h2>
-    <p class="muted">Choose your destination and tell us what kind of trip you want.</p>
+    <p class="muted">Choose your destination and tell us about your trip.</p>
 
     <div class="cards">
       <article class="card">
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80" alt="Mountain landscape">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80"
+             alt="Beautiful mountain landscape" loading="lazy">
         <div class="card-content">
           <h3>Kodaikanal</h3>
-          <p class="muted">Explore misty viewpoints, pine forests, lake walks and peaceful hill stays.</p>
-          <a class="button" href="#booking">Enquire now ↗</a>
+          <p class="muted">Discover misty viewpoints, pine forests, lake walks and peaceful hill stays.</p>
+          <a class="button" href="#booking" data-destination="Kodaikanal">Explore Kodaikanal ↗</a>
         </div>
       </article>
+
       <article class="card">
-        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=80" alt="Lush green forest">
+        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=80"
+             alt="Lush green forest in the hills" loading="lazy">
         <div class="card-content">
           <h3>Yercaud</h3>
           <p class="muted">Enjoy green landscapes, coffee estates, scenic roads and relaxing escapes.</p>
-          <a class="button" href="#booking">Enquire now ↗</a>
+          <a class="button" href="#booking" data-destination="Yercaud">Explore Yercaud ↗</a>
         </div>
       </article>
     </div>
@@ -171,49 +64,59 @@
   <section class="stay" id="stays">
     <p class="eyebrow">YOUR OWN LITTLE RETREAT</p>
     <h2 class="section-title">A stay that feels right.</h2>
-    <p class="muted">Room and villa options for couples, families and groups.</p>
+    <p class="muted">Comfortable room and villa options for couples, families and groups.</p>
     <p class="price">From ₹2,500</p>
-    <p class="muted">Starting price only. Final rates and availability depend on dates,
-    property, room type and guest count. Our team will confirm the total before booking.</p>
-    <a class="button" href="#booking">Find your stay ↗</a>
+    <p class="muted">Starting price only. Actual rates and availability depend on your travel dates,
+      property and guest count. Our team will confirm the final price.</p>
+    <a class="button" href="#booking" data-package="Room / villa only">Find your stay ↗</a>
   </section>
 
   <section id="services">
     <p class="eyebrow">MAKE IT YOURS</p>
     <h2 class="section-title">Your trip, your way.</h2>
+
     <div class="features">
       <article class="feature">
-        <h3>🏡 Room / Villa</h3>
-        <p class="muted">Tell us your dates and group size to enquire about a suitable stay.</p>
+        <div class="feature-icon">🏡</div>
+        <h3>Room / Villa</h3>
+        <p class="muted">Find a suitable stay for your dates and group size.</p>
+        <a href="#booking" data-package="Room / villa only">Enquire now ↗</a>
       </article>
+
       <article class="feature">
-        <h3>🚗 Pickup & Drop</h3>
-        <p class="muted">Ask our team about transport options for your trip.</p>
+        <div class="feature-icon">🚗</div>
+        <h3>Pickup & Drop</h3>
+        <p class="muted">Ask about transport arrangements for your holiday.</p>
+        <a href="#booking" data-package="Stay + pickup / drop">Enquire now ↗</a>
       </article>
+
       <article class="feature">
-        <h3>🧭 Guide or Explore</h3>
-        <p class="muted">Request a local guide or ask for a self-explore itinerary.</p>
+        <div class="feature-icon">🧭</div>
+        <h3>Guide or Explore</h3>
+        <p class="muted">Choose a local guide or request a self-explore itinerary.</p>
+        <a href="#booking" data-package="Stay + pickup + guide">Enquire now ↗</a>
       </article>
     </div>
   </section>
 
   <section class="booking" id="booking">
-    <div>
+    <div class="booking-info">
       <p class="eyebrow">LET'S GET YOU GOING</p>
       <h2 class="section-title">Plan your next getaway.</h2>
-      <p class="muted">Fill in your trip details. Your enquiry will open in WhatsApp
-      for you to review and send. No payment is collected on this website.</p>
+      <p class="muted">Share your trip details and send your enquiry directly through WhatsApp.</p>
       <p><strong>ADS Tours & Travels</strong></p>
       <p class="muted">Kodaikanal · Yercaud · Your next getaway</p>
+      <p class="notice">No online payment is collected on this website. Your trip is not confirmed until our team confirms availability and price.</p>
     </div>
 
     <form id="bookingForm">
-      <h3>Trip enquiry</h3>
+      <h3>Plan your trip</h3>
+
       <label for="name">Full name</label>
-      <input id="name" name="name" placeholder="Your name" required maxlength="80">
+      <input id="name" name="name" placeholder="Enter your name" required maxlength="80" autocomplete="name">
 
       <label for="phone">Mobile number</label>
-      <input id="phone" name="phone" placeholder="Your mobile number" required maxlength="15">
+      <input id="phone" name="phone" type="tel" placeholder="Enter your mobile number" required maxlength="18" autocomplete="tel">
 
       <label for="destination">Destination</label>
       <select id="destination" name="destination" required>
@@ -237,7 +140,7 @@
 
       <label for="package">What do you need?</label>
       <select id="package" name="package" required>
-        <option value="">Choose an option</option>
+        <option value="">Choose a package</option>
         <option>Room / villa only</option>
         <option>Stay + pickup / drop</option>
         <option>Stay + pickup + guide</option>
@@ -245,23 +148,23 @@
       </select>
 
       <label for="notes">Additional details (optional)</label>
-      <textarea id="notes" name="notes" rows="3" placeholder="Pickup location or preferences"></textarea>
+      <textarea id="notes" name="notes" rows="3" maxlength="500"
+        placeholder="Pickup location, room preference or other details"></textarea>
 
-      <button class="button" type="submit">Send enquiry on WhatsApp ↗</button>
-      <p id="message" class="muted" role="status"></p>
+      <button class="button submit-button" type="submit">Send enquiry on WhatsApp ↗</button>
+      <p id="message" class="muted" role="status" aria-live="polite"></p>
     </form>
   </section>
 </main>
 
 <footer>
-  <div class="logo">ADS <span>TOURS & TRAVELS</span></div>
+  <a class="logo footer-logo" href="#">ADS <span>TOURS & TRAVELS</span></a>
   <p>Make memories, not plans.</p>
-  <p>© <span id="year"></span> ADS Tours & Travels</p>
+  <p>© <span id="year"></span> ADS Tours & Travels. All rights reserved.</p>
 </footer>
 
 <script>
-  // IMPORTANT: Replace this with your business WhatsApp number.
-  // Use country code and digits only. Example: 919876543210
+  // Business WhatsApp number: country code + number, digits only.
   const WHATSAPP_NUMBER = "919345587325";
 
   document.getElementById("year").textContent = new Date().getFullYear();
@@ -274,12 +177,26 @@
     String(today.getDate()).padStart(2, "0")
   ].join("-");
 
+  // Preselect destination/package when a service link is clicked.
+  document.querySelectorAll("[data-destination]").forEach(link => {
+    link.addEventListener("click", () => {
+      document.getElementById("destination").value = link.dataset.destination;
+    });
+  });
+
+  document.querySelectorAll("[data-package]").forEach(link => {
+    link.addEventListener("click", () => {
+      document.getElementById("package").value = link.dataset.package;
+    });
+  });
+
   document.getElementById("bookingForm").addEventListener("submit", function(event) {
     event.preventDefault();
-    const message = document.getElementById("message");
+
+    const status = document.getElementById("message");
 
     if (!/^\d{10,15}$/.test(WHATSAPP_NUMBER)) {
-      message.textContent = "Please set your business WhatsApp number in the website code first.";
+      status.textContent = "Please configure the business WhatsApp number first.";
       return;
     }
 
@@ -287,11 +204,11 @@
     const customerPhone = String(form.get("phone") || "").trim();
 
     if (!/^\+?[\d\s()-]{10,18}$/.test(customerPhone)) {
-      message.textContent = "Please enter a valid mobile number.";
+      status.textContent = "Please enter a valid mobile number.";
       return;
     }
 
-    const text = [
+    const enquiry = [
       "Hi ADS Tours & Travels! I'd like to enquire about a trip.",
       "",
       "Name: " + form.get("name"),
@@ -305,14 +222,13 @@
       "Please confirm availability and the final price. This is an enquiry, not a confirmed booking."
     ].filter(Boolean).join("\n");
 
-    message.textContent = "WhatsApp will open. Please review the message and press Send.";
-    window.open(
-      "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text),
-      "_blank",
-      "noopener,noreferrer"
-    );
+    const whatsappURL = "https://wa.me/" + WHATSAPP_NUMBER +
+      "?text=" + encodeURIComponent(enquiry);
+
+    status.textContent = "Opening WhatsApp. Review your enquiry and press Send.";
+    window.open(whatsappURL, "_blank", "noopener,noreferrer");
   });
 </script>
+
 </body>
 </html>
-
