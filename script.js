@@ -1,505 +1,875 @@
-/*
-  ADS HOLIDAYS — Complete JavaScript
-  Features:
-  - WhatsApp trip booking
-  - Guest management
-  - Date validation
-  - Food budget calculator
-  - Destination and package selection
-  - Mobile navigation
-  - Scroll reveal animations
-*/
-
-(() => {
-  "use strict";
-
-  const WHATSAPP_NUMBER = "919345587325";
-
-  const $ = (selector) => document.querySelector(selector);
-  const $$ = (selector) => [...document.querySelectorAll(selector)];
-
-  function init() {
-    const guestList = $("#guestList");
-    const tripForm = $("#tripForm");
-    const toast = $("#toast");
-
-    if (!guestList || !tripForm || !toast) {
-      console.error("ADS Holidays: Required HTML elements are missing.");
-      return;
-    }
-
-    let guests = [{ name: "", age: "" }];
-    let toastTimer;
-
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
-
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.remove("show");
-      }, 2800);
-    }
-
-    function formatCurrency(amount) {
-      return "₹" + Math.round(amount).toLocaleString("en-IN");
-    }
-
-    function updateFoodEstimate() {
-      const budget = $("#foodBudget");
-      const estimate = $("#foodEstimate");
-
-      if (!budget || !estimate) return;
-
-      estimate.textContent = formatCurrency(
-        Math.max(0, Number(budget.value) || 0) * guests.length
-      );
-    }
-
-    function updateGuestSummary() {
-      let adults = 0;
-      let children = 0;
-
-      guests.forEach((guest) => {
-        if (guest.age === "") return;
-
-        const age = Number(guest.age);
-
-        if (!Number.isInteger(age) || age < 0 || age > 120) return;
-
-        if (age >= 12) adults++;
-        else children++;
-      });
-
-      if ($("#adultCount")) $("#adultCount").textContent = adults;
-      if ($("#childCount")) $("#childCount").textContent = children;
-      if ($("#guestCount")) $("#guestCount").textContent = guests.length;
-
-      updateFoodEstimate();
-    }
-
-    function updateGuestList() {
-      guestList.replaceChildren();
-
-      guests.forEach((guest, index) => {
-        const row = document.createElement("div");
-        row.className = "guest-row";
-
-        const name = document.createElement("input");
-        name.type = "text";
-        name.placeholder = `Guest ${index + 1} name`;
-        name.value = guest.name;
-        name.required = true;
-        name.maxLength = 80;
-
-        name.addEventListener("input", () => {
-          guests[index].name = name.value;
-        });
-
-        const age = document.createElement("input");
-        age.type = "number";
-        age.placeholder = "Age";
-        age.min = "0";
-        age.max = "120";
-        age.step = "1";
-        age.value = guest.age;
-        age.required = true;
-
-        age.addEventListener("input", () => {
-          guests[index].age = age.value;
-          updateGuestSummary();
-        });
-
-        row.append(name, age);
-
-        if (guests.length > 1) {
-          const remove = document.createElement("button");
-          remove.type = "button";
-          remove.className = "remove-guest";
-          remove.textContent = "×";
-
-          remove.addEventListener("click", () => {
-            guests.splice(index, 1);
-            updateGuestList();
-          });
-
-          row.appendChild(remove);
-        }
-
-        guestList.appendChild(row);
-      });
-
-      updateGuestSummary();
-    }
-
-    function setMinimumDates() {
-      const start = $("#startDate");
-      const end = $("#endDate");
-
-      if (!start || !end) return;
-
-      const today = new Date();
-      const localToday = [
-        today.getFullYear(),
-        String(today.getMonth() + 1).padStart(2, "0"),
-        String(today.getDate()).padStart(2, "0")
-      ].join("-");
-
-      start.min = localToday;
-      end.min = localToday;
-    }
-
-    function openWhatsApp(message) {
-      if (!/^\d{10,15}$/.test(WHATSAPP_NUMBER)) {
-        showToast("Please check the WhatsApp number in script.js.");
-        return;
-      }
-
-      const url =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-      window.open(url, "_blank", "noopener,noreferrer");
-    }
-
-    function selectDestination(destination) {
-      const select = $("#destination");
-
-      if (select) select.value = destination;
-
-      $("#planner")?.scrollIntoView({ behavior: "smooth" });
-    }
-
-    // Add guest
-    $("#addGuest")?.addEventListener("click", () => {
-      if (guests.length >= 30) {
-        showToast("You can add up to 30 guests.");
-        return;
-      }
-
-      guests.push({ name: "", age: "" });
-      updateGuestList();
-    });
-
-    // Food budget
-    $("#foodBudget")?.addEventListener("input", updateFoodEstimate);
-
-    // Validate travel dates
-    $("#startDate")?.addEventListener("change", () => {
-      const start = $("#startDate");
-      const end = $("#endDate");
-
-      if (!start || !end) return;
-
-      end.min = start.value || start.min;
-
-      if (start.value && end.value && end.value < start.value) {
-        end.value = "";
-        showToast("Choose a return date on or after your start date.");
-      }
-    });
-
-    // Destination buttons
-    $$(".choose-destination").forEach((button) => {
-      button.addEventListener("click", () => {
-        selectDestination(button.dataset.destination);
-      });
-    });
-
-    // Package selection
-    $$(".package-select").forEach((button) => {
-      button.addEventListener("click", () => {
-        const packageSelect = $("#tripPackage");
-
-        if (packageSelect) {
-          packageSelect.value =
-            button.dataset.package || "Customized Trip";
-        }
-
-        $("#planner")?.scrollIntoView({ behavior: "smooth" });
-      });
-    });
-
-    // Villa selection
-    $$(".room-select").forEach((button) => {
-      button.addEventListener("click", () => {
-        const room = button.dataset.room || "";
-
-        if ($("#destination")) {
-          $("#destination").value = "Yercaud";
-        }
-
-        const stay = $("#stay");
-
-        if (stay) {
-          const option = [...stay.options].find((item) =>
-            item.text.toLowerCase().includes(room.toLowerCase())
-          );
-
-          stay.value = option ? option.value : "Need recommendations";
-        }
-
-        $("#planner")?.scrollIntoView({ behavior: "smooth" });
-        showToast(`${room} selected. Add your trip details below.`);
-      });
-    });
-
-    // WhatsApp contact
-    $("#contactWhatsApp")?.addEventListener("click", () => {
-      openWhatsApp(
-        "Hi ADS Holidays! 👋\nI'd like to know more about your holiday packages and villa stays."
-      );
-    });
-
-    // Submit trip enquiry
-    tripForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      if (!tripForm.reportValidity()) return;
-
-      const invalidGuest = guests.find((guest) => {
-        const age = Number(guest.age);
-
-        return (
-          !guest.name.trim() ||
-          guest.age === "" ||
-          !Number.isInteger(age) ||
-          age < 0 ||
-          age > 120
-        );
-      });
-
-      if (!guests.length || invalidGuest) {
-        showToast("Enter each guest's name and a valid age.");
-        return;
-      }
-
-      const startDate = $("#startDate").value;
-      const endDate = $("#endDate").value;
-
-      if (!startDate || !endDate || endDate < startDate) {
-        showToast("Return date must be on or after your start date.");
-        return;
-      }
-
-      const totalBudget = Number($("#totalBudget").value);
-
-      if (!Number.isFinite(totalBudget) || totalBudget <= 0) {
-        showToast("Enter a valid total trip budget.");
-        return;
-      }
-
-      const adults = guests.filter(
-        (guest) => Number(guest.age) >= 12
-      ).length;
-
-      const children = guests.length - adults;
-
-      const foodPerGuest = Math.max(
-        0,
-        Number($("#foodBudget").value) || 0
-      );
-
-      const foodTotal = foodPerGuest * guests.length;
-      const services = [];
-
-      if ($("#pickupDrop")?.checked) services.push("Pickup & drop");
-      if ($("#guide")?.checked) services.push("Local guide");
-      if ($("#breakfast")?.checked) services.push("Breakfast");
-      if ($("#lunch")?.checked) services.push("Lunch");
-      if ($("#dinner")?.checked) services.push("Dinner");
-
-      const guestDetails = guests.map((guest, index) => {
-        const age = Number(guest.age);
-        const category = age >= 12 ? "Adult" : "Child";
-
-        return `${index + 1}. ${guest.name.trim()} — Age ${age} (${category})`;
-      });
-
-      const value = (selector) =>
-        $(selector)?.value?.trim() || "";
-
-      const message = [
-        "🌿 *NEW TRIP ENQUIRY — ADS HOLIDAYS*",
-        "",
-        `👤 *Name:* ${value("#customerName")}`,
-        `📱 *Contact:* ${value("#customerPhone")}`,
-        `📍 *Destination:* ${value("#destination")}`,
-        `🧳 *Trip type:* ${value("#tripPackage")}`,
-        `📅 *Start date:* ${startDate}`,
-        `📅 *Return date:* ${endDate}`,
-        `🏡 *Stay preference:* ${value("#stay")}`,
-        `🚘 *Pickup location:* ${value("#pickup") || "Not specified"}`,
-        "",
-        `👥 *Guests:* ${guests.length}`,
-        `🧑 *Adults (12+):* ${adults}`,
-        `🧒 *Children (under 12):* ${children}`,
-        "",
-        "*Guest details:*",
-        ...guestDetails,
-        "",
-        "*Requested services:*",
-        ...(services.length
-          ? services.map((service) => `• ${service}`)
-          : ["• No additional services selected"]),
-        "",
-        `🍽️ *Food budget per guest:* ${formatCurrency(foodPerGuest)}`,
-        `🍽️ *Estimated food budget total:* ${formatCurrency(foodTotal)}`,
-        `💰 *Total trip budget:* ${formatCurrency(totalBudget)}`,
-        "",
-        `📝 *Special requests:* ${value("#notes") || "None"}`,
-        "",
-        "Please share availability, package inclusions and the final price. Thank you!"
-      ].join("\n");
-
-      openWhatsApp(message);
-    });
-
-    // Mobile navigation
-    const menuToggle = $("#menuToggle");
-    const navMenu = $("#navMenu");
-
-    menuToggle?.addEventListener("click", () => {
-      if (!navMenu) return;
-
-      const isOpen = navMenu.classList.toggle("open");
-
-      menuToggle.setAttribute("aria-expanded", String(isOpen));
-      menuToggle.textContent = isOpen ? "×" : "☰";
-    });
-
-    $$("#navMenu a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navMenu?.classList.remove("open");
-
-        if (menuToggle) {
-          menuToggle.textContent = "☰";
-          menuToggle.setAttribute("aria-expanded", "false");
-        }
-      });
-    });
-
-    if ($("#year")) {
-      $("#year").textContent = new Date().getFullYear();
-    }
-
-    setMinimumDates();
-    updateGuestList();
-
-    console.info("ADS Holidays: script.js loaded successfully.");
+
+/* ==========================================
+   ADS HOLIDAYS — PREMIUM TRAVEL WEBSITE
+   Complete Responsive CSS
+========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary: #174c3c;
+  --primary-dark: #10372c;
+  --accent: #d7ad68;
+  --accent-light: #f4e7cf;
+  --background: #faf9f5;
+  --surface: #ffffff;
+  --text: #202b26;
+  --muted: #747e77;
+  --border: #e7e9e3;
+  --radius: 18px;
+  --shadow: 0 12px 35px rgba(20, 50, 38, 0.09);
+  --transition: 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+  width: min(1180px, 90%);
+  margin-inline: auto;
+}
+
+section {
+  padding: 85px 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Playfair Display', serif;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+p {
+  color: var(--muted);
+}
+
+.section-heading {
+  max-width: 720px;
+  margin: 0 auto 42px;
+  text-align: center;
+}
+
+.section-heading h2 {
+  margin-bottom: 14px;
+}
+
+.section-heading p {
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* NAVIGATION */
+
+header {
+  position: relative;
+  z-index: 100;
+}
+
+nav,
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 5%;
+  background: rgba(250, 249, 245, 0.96);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(14px);
+  transition: box-shadow var(--transition);
+}
+
+nav.nav-scrolled,
+.navbar.nav-scrolled {
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.logo,
+.brand {
+  font-family: 'Playfair Display', serif;
+  color: var(--primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#navMenu,
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+
+#navMenu a,
+.nav-links a {
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+#navMenu a:hover,
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+#menuToggle {
+  display: none;
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+  font-size: 1.8rem;
+}
+
+/* BUTTONS */
+
+.btn,
+.button,
+button.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 24px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  transition:
+    transform var(--transition),
+    background var(--transition),
+    box-shadow var(--transition);
+}
+
+.btn:hover,
+.button:hover,
+button.primary:hover {
+  transform: translateY(-3px);
+  background: var(--primary-dark);
+  box-shadow: 0 9px 22px rgba(23, 76, 60, 0.2);
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-outline:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-gold {
+  background: var(--accent);
+  color: #24231e;
+}
+
+.btn-gold:hover {
+  background: #c49a55;
+}
+
+/* HERO SECTION */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: min(760px, 88vh);
+  padding: 100px 0;
+  overflow: hidden;
+  color: white;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(9, 31, 24, 0.82),
+      rgba(9, 31, 24, 0.32)
+    ),
+    url('images/kodaikanal.jpeg') center 45% / cover no-repeat;
+}
+
+.hero h1,
+.hero h2,
+.hero h3,
+.hero p {
+  color: white;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+}
+
+.hero .eyebrow {
+  color: var(--accent-light);
+}
+
+.hero p {
+  max-width: 620px;
+  margin: 24px 0 30px;
+  font-size: 1.05rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* DESTINATION CARDS */
+
+.destination-grid,
+.destinations-grid,
+.package-grid,
+.villa-grid,
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.destination-card,
+.package-card,
+.villa-card,
+.feature-card,
+.destination,
+.package,
+.villa {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 5px 20px rgba(20, 50, 38, 0.035);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.destination-card:hover,
+.package-card:hover,
+.villa-card:hover,
+.feature-card:hover,
+.destination:hover,
+.package:hover,
+.villa:hover {
+  transform: translateY(-7px);
+  box-shadow: var(--shadow);
+}
+
+.destination-card img,
+.destination img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  transition: transform 0.65s ease;
+}
+
+.destination-card:hover img,
+.destination:hover img {
+  transform: scale(1.06);
+}
+
+.card-content {
+  padding: 22px;
+}
+
+.card-content h3 {
+  margin-bottom: 9px;
+}
+
+.card-content p {
+  margin-bottom: 16px;
+  font-size: 0.92rem;
+}
+
+.destination-card .btn,
+.destination-card .button {
+  width: 100%;
+}
+
+/* PHOTO OVERLAY CARD */
+
+.image-card {
+  position: relative;
+  min-height: 350px;
+  overflow: hidden;
+  border-radius: var(--radius);
+  isolation: isolate;
+}
+
+.image-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s ease;
+}
+
+.image-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(5, 20, 14, 0.85),
+    transparent 75%
+  );
+  content: '';
+}
+
+.image-card:hover img {
+  transform: scale(1.07);
+}
+
+.image-card-content {
+  position: absolute;
+  z-index: 1;
+  right: 22px;
+  bottom: 22px;
+  left: 22px;
+  color: white;
+}
+
+.image-card-content h3,
+.image-card-content p {
+  color: white;
+}
+
+/* PACKAGES AND VILLAS */
+
+.package-card img,
+.villa-card img {
+  height: 220px;
+  object-fit: cover;
+}
+
+.price {
+  display: block;
+  margin: 12px 0;
+  color: var(--primary);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.price small {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.card-content ul {
+  margin: 15px 0;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.card-content li {
+  margin-bottom: 6px;
+}
+
+/* PLANNER AND BOOKING FORM */
+
+.planner-section {
+  background: #f0f3ed;
+}
+
+#planner {
+  scroll-margin-top: 35px;
+}
+
+#tripForm,
+.booking-form {
+  max-width: 900px;
+  margin-inline: auto;
+  padding: clamp(20px, 4vw, 42px);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: white;
+  box-shadow: var(--shadow);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid #dce2da;
+  border-radius: 10px;
+  outline: none;
+  background: #fff;
+  color: var(--text);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(23, 76, 60, 0.1);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.checkbox-group input {
+  width: 18px;
+  min-height: 18px;
+  accent-color: var(--primary);
+}
+
+#tripForm button[type="submit"],
+.booking-form button[type="submit"] {
+  width: 100%;
+  margin-top: 25px;
+}
+
+.guest-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 100px 42px;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.remove-guest {
+  min-height: 45px;
+  border: 1px solid #efd2d2;
+  border-radius: 10px;
+  background: #fff3f3;
+  color: #a22;
+  font-size: 1.3rem;
+}
+
+#addGuest {
+  margin: 10px 0 20px;
+}
+
+.budget-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 12px;
+  background: var(--accent-light);
+}
+
+.budget-summary strong {
+  color: var(--primary);
+}
+
+/* FEATURES */
+
+.feature-card {
+  padding: 28px;
+}
+
+.feature-icon {
+  display: grid;
+  width: 55px;
+  height: 55px;
+  place-items: center;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  background: var(--accent-light);
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+
+.feature-card h3 {
+  margin-bottom: 10px;
+}
+
+/* CONTACT AND FOOTER */
+
+.contact-section {
+  background: #eaf0e8;
+}
+
+.contact-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: clamp(25px, 5vw, 55px);
+  border-radius: 24px;
+  background: white;
+  box-shadow: var(--shadow);
+}
+
+footer {
+  padding: 55px 0 25px;
+  background: #112f25;
+  color: white;
+}
+
+footer h2,
+footer h3,
+footer p,
+footer a {
+  color: white;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+}
+
+.footer-links {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+.footer-bottom {
+  margin-top: 35px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  text-align: center;
+}
+
+/* TOAST MESSAGE */
+
+#toast {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 999;
+  max-width: min(380px, calc(100vw - 44px));
+  padding: 15px 20px;
+  border-radius: 12px;
+  background: var(--primary-dark);
+  color: white;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(15px);
+  transition: all var(--transition);
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* SCROLL REVEAL ANIMATIONS */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* IMAGE HOVER EFFECT */
+
+.destination-card img,
+.package-card img,
+.villa-card img {
+  will-change: transform;
+}
+
+/* ACCESSIBILITY */
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
-  } else {
-    init();
+  .reveal,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
   }
-})();
+}
 
-// ========================================
-// DYNAMIC SCROLL ANIMATIONS
-// ========================================
+/* TABLET */
 
-(() => {
-  "use strict";
-
-  function initScrollEffects() {
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    const selectors = [
-      "main section h1",
-      "main section h2",
-      "main section h3",
-      "main section p",
-      "main section .btn",
-      "main section .button",
-      ".destination-card",
-      ".package-card",
-      ".villa-card",
-      ".tour-card",
-      ".feature-card",
-      ".destination",
-      ".package",
-      ".villa",
-      ".section-heading",
-      ".section-title"
-    ];
-
-    const elements = document.querySelectorAll(selectors.join(", "));
-
-    if (reduceMotion || !("IntersectionObserver" in window)) {
-      elements.forEach((element) => element.classList.add("visible"));
-    } else {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-            } else {
-              entry.target.classList.remove("visible");
-            }
-          });
-        },
-        {
-          threshold: 0.12,
-          rootMargin: "0px 0px -35px 0px"
-        }
-      );
-
-      elements.forEach((element, index) => {
-        if (element.dataset.revealReady) return;
-        if (element.closest(".hero")) return;
-
-        element.dataset.revealReady = "true";
-
-        if (element.closest("nav, header, footer, form")) return;
-
-        if (element.matches("img")) {
-          element.classList.add("reveal-scale");
-        } else {
-          element.classList.add("reveal");
-        }
-
-        element.style.transitionDelay = `${(index % 4) * 80}ms`;
-        observer.observe(element);
-      });
-    }
-
-    // Navbar shadow on scroll
-    const navElements = document.querySelectorAll("nav, .navbar");
-
-    function updateNavbar() {
-      navElements.forEach((nav) => {
-        nav.classList.toggle("nav-scrolled", window.scrollY > 25);
-      });
-    }
-
-    window.addEventListener("scroll", updateNavbar, { passive: true });
-    updateNavbar();
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", (event) => {
-        const targetId = link.getAttribute("href");
-        if (!targetId || targetId === "#") return;
-
-        const target = document.querySelector(targetId);
-        if (!target) return;
-
-        event.preventDefault();
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
-
-    console.info("ADS Holidays: scroll effects loaded.");
+@media (max-width: 1000px) {
+  .destination-grid,
+  .destinations-grid,
+  .package-grid,
+  .villa-grid,
+  .features-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initScrollEffects, {
-      once: true
-    });
-  } else {
-    initScrollEffects();
+  #navMenu,
+  .nav-links {
+    gap: 16px;
   }
-})();
+
+  .hero {
+    min-height: 620px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+  section {
+    padding: 60px 0;
+  }
+
+  nav,
+  .navbar {
+    flex-wrap: wrap;
+    padding: 15px 5%;
+  }
+
+  #menuToggle {
+    display: block;
+  }
+
+  #navMenu,
+  .nav-links {
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding-top: 12px;
+  }
+
+  #navMenu.open,
+  .nav-links.open {
+    display: flex;
+  }
+
+  #navMenu a,
+  .nav-links a {
+    display: block;
+    padding: 12px 0;
+  }
+
+  .hero {
+    min-height: 580px;
+    padding: 70px 0;
+    background-position: 58% center;
+  }
+
+  .hero p {
+    font-size: 0.98rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .destination-grid,
+  .destinations-grid,
+  .package-grid,
+  .villa-grid,
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .destination-card img,
+  .destination img {
+    height: 270px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full-width {
+    grid-column: auto;
+  }
+
+  .checkbox-group {
+    grid-template-columns: 1fr;
+  }
+
+  .guest-row {
+    grid-template-columns: minmax(0, 1fr) 75px 38px;
+    gap: 7px;
+  }
+
+  #tripForm,
+  .booking-form {
+    padding: 20px 15px;
+  }
+
+  .contact-panel {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .image-card {
+    min-height: 320px;
+  }
+}
+
+/* SMALL PHONES */
+
+@media (max-width: 380px) {
+  .container {
+    width: 92%;
+  }
+
+  .guest-row {
+    grid-template-columns: minmax(0, 1fr) 65px 34px;
+  }
+
+  .btn,
+  .button {
+    padding: 12px 17px;
+  }
+}
