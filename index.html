@@ -5,234 +5,212 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#102e27">
-  <title>ADS Tours & Travels | Kodaikanal & Yercaud Getaways</title>
-  <meta name="description" content="Explore Kodaikanal and Yercaud with ADS Tours & Travels. Villa stays from ₹2,500, pickup and drop, local guide options and customised tour packages.">
-  <link rel="preconnect" href="https://images.unsplash.com">
+  <meta name="description" content="Plan your Kodaikanal and Yercaud getaway with ADS Tours & Travels. Villa stays, sightseeing, pickup and drop, and WhatsApp booking enquiries.">
+  <title>ADS Tours & Travels | Hill Station Getaways</title>
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
 
 <header class="site-header">
-  <a class="logo" href="#home" aria-label="ADS Tours and Travels home">
-    ADS<span>TOURS & TRAVELS</span>
-  </a>
-  <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
-  <nav id="mainNav" aria-label="Main navigation">
+  <a href="#home" class="logo">ADS<span>TOURS & TRAVELS</span></a>
+  <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+  <nav id="mainNav">
     <a href="#destinations">Destinations</a>
-    <a href="#packages">Tour packages</a>
+    <a href="#packages">Packages</a>
     <a href="#stays">Villa stays</a>
     <a href="#services">Services</a>
-    <a class="nav-cta" href="#booking">Plan a trip ↗</a>
+    <a href="#booking" class="nav-cta">Plan a trip ↗</a>
   </nav>
 </header>
 
 <main id="home">
   <section class="hero">
-    <div class="hero-shade"></div>
+    <div class="hero-overlay"></div>
     <div class="hero-content reveal">
       <p class="eyebrow">YOUR NEXT ESCAPE STARTS HERE</p>
       <h1>Leave the routine.<br><em>Find the hills.</em></h1>
-      <p>Cool breezes, scenic roads and stays made for slowing down. Plan your next Kodaikanal or Yercaud getaway with ADS Tours & Travels.</p>
+      <p>Discover cool breezes, scenic roads and peaceful stays with ADS Tours & Travels. Your Kodaikanal and Yercaud getaway starts here.</p>
       <div class="hero-actions">
-        <a class="button button-lime" href="#packages">Explore packages <span>↗</span></a>
-        <a class="text-link" href="#booking">Customise my trip <span>→</span></a>
+        <a class="button button-lime" href="#packages">Explore packages ↗</a>
+        <a class="text-link" href="#booking">Customise my trip →</a>
       </div>
-      <div class="hero-note"><span class="pulse-dot"></span> Personalised trips · Stay options · Local experiences</div>
+      <p class="hero-note">✳ Personalised trips · Stay options · Local experiences</p>
     </div>
-    <div class="hero-caption">TAMIL NADU · INDIA</div>
+    <span class="hero-caption">TAMIL NADU · INDIA</span>
   </section>
 
-  <section class="intro section-pad" id="destinations">
+  <section class="section section-light" id="destinations">
     <div class="section-heading reveal">
       <p class="eyebrow">PICK YOUR HAPPY PLACE</p>
-      <h2 class="section-title">Two hills.<br><em>Endless stories.</em></h2>
-      <p class="muted">Whether you want misty valley views or a peaceful lakeside break, we’ll help you plan a trip that feels like yours.</p>
+      <h2>Two hills.<br><em>Endless stories.</em></h2>
+      <p class="muted">From misty valley views to peaceful lakeside breaks, choose a destination and plan your escape.</p>
     </div>
+
     <div class="destination-grid">
       <article class="destination-card reveal">
-        <img src="https://www.exploretourstravels.com/images/about/coakers-walk.jpg"
-          alt="Coaker's Walk and valley views in Kodaikanal" loading="lazy">
-        <div class="destination-overlay"></div>
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1100&q=85" alt="Scenic green mountain landscape" loading="lazy">
+        <div class="card-overlay"></div>
         <div class="destination-content">
-          <span class="destination-number">01 / THE MISTY ESCAPE</span>
+          <span class="eyebrow">01 / MISTY ESCAPE</span>
           <h3>Kodaikanal</h3>
           <p>Pine forests, lake walks, viewpoints and cool mountain air.</p>
-          <a class="round-link" href="#booking" data-destination="Kodaikanal" aria-label="Enquire about Kodaikanal">↗</a>
+          <button class="round-link choose-destination" data-destination="Kodaikanal" aria-label="Choose Kodaikanal">↗</button>
         </div>
       </article>
 
       <article class="destination-card reveal">
-        <img src="https://wanderon-images.gumlet.io/blogs/new/2024/03/yercaud-lake.jpg?auto=compress%2Cformat&w=1024"
-          alt="Yercaud Lake surrounded by green hills" loading="lazy">
-        <div class="destination-overlay"></div>
+        <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1100&q=85" alt="Green forest and peaceful nature scenery" loading="lazy">
+        <div class="card-overlay"></div>
         <div class="destination-content">
-          <span class="destination-number">02 / THE GREEN GETAWAY</span>
+          <span class="eyebrow">02 / GREEN GETAWAY</span>
           <h3>Yercaud</h3>
           <p>Green hills, coffee estates, lake boating and scenic drives.</p>
-          <a class="round-link" href="#booking" data-destination="Yercaud" aria-label="Enquire about Yercaud">↗</a>
+          <button class="round-link choose-destination" data-destination="Yercaud" aria-label="Choose Yercaud">↗</button>
         </div>
       </article>
     </div>
+    <p class="small-note">Images are illustrative and loaded from external sources. Replace them with licensed destination photographs for accurate place representation.</p>
   </section>
 
-  <section class="packages-section section-pad" id="packages">
+  <section class="section section-sand" id="packages">
     <div class="section-top reveal">
       <div>
         <p class="eyebrow">YOUR NEXT ADVENTURE</p>
-        <h2 class="section-title">Choose your <em>escape.</em></h2>
+        <h2>Choose your <em>escape.</em></h2>
       </div>
-      <p class="muted">Sample itineraries to get you started. Tell us your dates and group size for a personalised quote.</p>
+      <p class="muted">Select a sample itinerary and send us your details for a customised quote.</p>
     </div>
 
     <div class="package-grid">
       <article class="package-card reveal">
-        <div class="package-image">
-          <img src="https://tamizhantrails.com/wp-content/uploads/2023/11/Kodaikanal-Lake.jpg"
-            alt="Kodaikanal Lake in Tamil Nadu" loading="lazy">
-          <span class="image-tag">HILL STATION FAVOURITE</span>
-        </div>
+        <img class="package-image" src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=85" alt="Mountain forest landscape" loading="lazy">
         <div class="package-body">
-          <div class="package-meta"><span>01 destination</span><span>Custom duration</span></div>
+          <span class="tag">HILL STATION</span>
           <h3>Kodaikanal Highlights</h3>
-          <p class="muted">A relaxed hill-station trip for couples, friends and families.</p>
-          <div class="itinerary">
-            <h4>Suggested places</h4>
-            <ul>
-              <li>Kodaikanal Lake & lakeside walk</li>
-              <li>Coaker’s Walk viewpoint</li>
-              <li>Pine Forest & Pillar Rocks</li>
-              <li>Local sightseeing based on time and access</li>
-            </ul>
-          </div>
-          <div class="package-bottom">
-            <div><small>PACKAGE PRICE</small><strong>Ask for a quote</strong></div>
-            <button class="button button-dark choose-package" data-destination="Kodaikanal" data-package="Kodaikanal Highlights package">Enquire ↗</button>
+          <p class="muted">A refreshing getaway for families, couples and friends.</p>
+          <ul>
+            <li>Kodaikanal Lake</li>
+            <li>Coaker's Walk</li>
+            <li>Pine Forest and Pillar Rocks</li>
+            <li>Other sightseeing based on time and access</li>
+          </ul>
+          <div class="package-footer">
+            <span class="quote-label">Personalised pricing</span>
+            <button class="button button-dark choose-package" data-destination="Kodaikanal" data-package="Kodaikanal Highlights">Enquire ↗</button>
           </div>
         </div>
       </article>
 
       <article class="package-card reveal">
-        <div class="package-image">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Lady%27s_seat-5-yercaud-salem-India.jpg"
-            alt="Lady's Seat viewpoint overlooking Yercaud hills" loading="lazy">
-          <span class="image-tag">NATURE & VIEWS</span>
-        </div>
+        <img class="package-image" src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1000&q=85" alt="Lush green forest trail" loading="lazy">
         <div class="package-body">
-          <div class="package-meta"><span>01 destination</span><span>Custom duration</span></div>
+          <span class="tag">NATURE & VIEWS</span>
           <h3>Yercaud Nature Break</h3>
-          <p class="muted">An easy-going escape with lake views, green hills and scenic stops.</p>
-          <div class="itinerary">
-            <h4>Suggested places</h4>
-            <ul>
-              <li>Yercaud Lake & boating area</li>
-              <li>Lady’s Seat viewpoint</li>
-              <li>Botanical Garden, subject to opening</li>
-              <li>Coffee-estate and scenic stops where available</li>
-            </ul>
-          </div>
-          <div class="package-bottom">
-            <div><small>PACKAGE PRICE</small><strong>Ask for a quote</strong></div>
-            <button class="button button-dark choose-package" data-destination="Yercaud" data-package="Yercaud Nature Break package">Enquire ↗</button>
+          <p class="muted">An easy-going break with green hills and scenic stops.</p>
+          <ul>
+            <li>Yercaud Lake</li>
+            <li>Lady's Seat viewpoint</li>
+            <li>Botanical Garden, subject to opening</li>
+            <li>Coffee estate stops where available</li>
+          </ul>
+          <div class="package-footer">
+            <span class="quote-label">Personalised pricing</span>
+            <button class="button button-dark choose-package" data-destination="Yercaud" data-package="Yercaud Nature Break">Enquire ↗</button>
           </div>
         </div>
       </article>
 
-      <article class="package-card package-custom reveal">
-        <div class="custom-icon">✳</div>
+      <article class="custom-card reveal">
+        <span class="custom-star">✳</span>
         <p class="eyebrow">MADE FOR YOUR GROUP</p>
-        <h3>Your own custom trip</h3>
-        <p class="muted">Need a villa, pickup, a guide or a mix of everything? We can build your enquiry around your plans.</p>
+        <h3>Your own<br>custom trip.</h3>
+        <p>Combine a stay, transport, sightseeing and guide options based on your needs.</p>
         <ul>
           <li>Family and friends trips</li>
-          <li>Stay + transport options</li>
-          <li>Guide or self-explore preference</li>
+          <li>Room and villa enquiries</li>
+          <li>Guide or self-explore</li>
         </ul>
         <button class="button button-lime choose-package" data-package="Custom trip plan">Build my trip ↗</button>
       </article>
     </div>
-    <p class="small-note">Itineraries are suggestions, not a confirmed tour schedule. Attraction access, timings, weather and transport arrangements may vary.</p>
+    <p class="small-note">These are suggested itineraries, not confirmed schedules. Attraction access and travel arrangements may vary.</p>
   </section>
 
-  <section class="stay-section section-pad" id="stays">
-    <div class="stay-photo">
-      <img src="https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=1200&q=85"
-        alt="Cosy holiday cottage surrounded by nature" loading="lazy">
-      <div class="stay-photo-label">SLOW DOWN. STAY A LITTLE.</div>
+  <section class="stay-section section" id="stays">
+    <div class="stay-image reveal">
+      <img src="https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=1200&q=85" alt="Cosy holiday cottage surrounded by nature" loading="lazy">
+      <span>YOUR LITTLE RETREAT</span>
     </div>
-    <div class="stay-copy reveal">
-      <p class="eyebrow">YOUR OWN LITTLE RETREAT</p>
-      <h2 class="section-title">A stay that<br><em>feels right.</em></h2>
-      <p class="muted">Find room and villa options for couples, families and groups. Share your dates and number of guests so we can check suitable options.</p>
-      <div class="stay-price">
+    <div class="stay-content reveal">
+      <p class="eyebrow">STAY A LITTLE LONGER</p>
+      <h2>A stay that<br><em>feels right.</em></h2>
+      <p class="muted">Explore room and villa options for couples, families and groups. Tell us your dates and guest count to check availability.</p>
+      <div class="price-panel">
         <span>STAYS FROM</span>
         <strong>₹2,500</strong>
-        <small>Starting price · availability and final rate to be confirmed</small>
+        <small>Starting price only. Final rate and availability must be confirmed.</small>
       </div>
-      <a class="button button-lime" href="#booking" data-package="Room / villa only">Find a stay ↗</a>
+      <button class="button button-lime choose-package" data-package="Room / villa only">Find a stay ↗</button>
     </div>
   </section>
 
-  <section class="services-section section-pad" id="services">
+  <section class="section section-light" id="services">
     <div class="section-heading centered reveal">
       <p class="eyebrow">THE DETAILS, TAKEN CARE OF</p>
-      <h2 class="section-title">Travel your <em>way.</em></h2>
-      <p class="muted">Choose only what you need. We’ll confirm the options and final price before you decide.</p>
+      <h2>Travel your <em>way.</em></h2>
+      <p class="muted">Choose the services you need. We will confirm the available options and price.</p>
     </div>
+
     <div class="service-grid">
       <article class="service-card reveal">
-        <span class="service-icon">⌂</span><span class="service-index">01</span>
+        <span class="service-icon">⌂</span>
         <h3>Room / Villa</h3>
-        <p class="muted">Ask about stay options to suit your group size, dates and budget.</p>
-        <a href="#booking" data-package="Room / villa only">Enquire about stays ↗</a>
+        <p class="muted">Ask about accommodation options for your dates and group size.</p>
+        <button class="text-button choose-package" data-package="Room / villa only">Enquire about stays ↗</button>
       </article>
       <article class="service-card reveal">
-        <span class="service-icon">↗</span><span class="service-index">02</span>
+        <span class="service-icon">↗</span>
         <h3>Pickup & Drop</h3>
-        <p class="muted">Share your pickup location and ask about transport for your trip.</p>
-        <a href="#booking" data-package="Stay + pickup / drop">Ask about transport ↗</a>
+        <p class="muted">Share your pickup point and ask about transport arrangements.</p>
+        <button class="text-button choose-package" data-package="Stay + pickup / drop">Ask about transport ↗</button>
       </article>
       <article class="service-card reveal">
-        <span class="service-icon">⌖</span><span class="service-index">03</span>
+        <span class="service-icon">⌖</span>
         <h3>Guide or Self-Explore</h3>
-        <p class="muted">Request a local guide or ask for a self-explore sightseeing plan.</p>
-        <a href="#booking" data-package="Stay + pickup + guide">Choose your experience ↗</a>
+        <p class="muted">Choose a guide enquiry or request a self-explore sightseeing plan.</p>
+        <button class="text-button choose-package" data-package="Stay + pickup + guide">Choose your experience ↗</button>
       </article>
     </div>
   </section>
 
-  <section class="booking-section section-pad" id="booking">
-    <div class="booking-copy reveal">
-      <p class="eyebrow">LET’S GET YOU GOING</p>
-      <h2 class="section-title">Your next story<br>starts <em>here.</em></h2>
-      <p class="muted">Fill in your trip details. WhatsApp will open with a pre-filled enquiry for you to review and send to ADS Tours & Travels.</p>
-      <div class="booking-points">
-        <span>✓ Personalised enquiry</span>
-        <span>✓ No online payment required</span>
-        <span>✓ Price confirmed before booking</span>
+  <section class="booking-section section" id="booking">
+    <div class="booking-info reveal">
+      <p class="eyebrow">LET'S GET YOU GOING</p>
+      <h2>Your next story<br>starts <em>here.</em></h2>
+      <p class="muted">Complete the form and send your trip enquiry to WhatsApp. You can review the message before sending it.</p>
+      <div class="benefits">
+        <p>✓ Personalised enquiry</p>
+        <p>✓ No online payment required</p>
+        <p>✓ Price confirmed before booking</p>
       </div>
-      <div class="booking-contact">
-        <span class="contact-icon">↗</span>
-        <div>
-          <small>READY TO PLAN?</small>
-          <strong>Let’s talk on WhatsApp</strong>
-          <p>Send your details and we’ll discuss the options.</p>
-        </div>
+      <div class="contact-note">
+        <span>↗</span>
+        <div><strong>Let's plan your trip.</strong><p class="muted">Send your details through WhatsApp.</p></div>
       </div>
     </div>
 
-    <form id="bookingForm" class="booking-form">
-      <div class="form-heading">
-        <div><p class="eyebrow">TRIP ENQUIRY</p><h3>Tell us your plan.</h3></div>
-        <span class="form-step">01 — 01</span>
-      </div>
+    <form id="bookingForm" class="booking-form reveal">
+      <p class="eyebrow">TRIP ENQUIRY</p>
+      <h3>Tell us your plan.</h3>
 
       <label for="name">Full name</label>
-      <input id="name" name="name" autocomplete="name" placeholder="Your name" maxlength="80" required>
+      <input id="name" name="name" autocomplete="name" maxlength="80" placeholder="Your name" required>
 
       <div class="form-row">
         <div>
           <label for="phone">Mobile number</label>
-          <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="Your number" maxlength="18" required>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="18" placeholder="Your number" required>
         </div>
         <div>
           <label for="date">Travel date</label>
@@ -272,11 +250,11 @@
         </div>
       </div>
 
-      <label for="package">What do you need?</label>
+      <label for="package">Requirement</label>
       <select id="package" name="package" required>
         <option value="">Choose your requirement</option>
-        <option>Kodaikanal Highlights package</option>
-        <option>Yercaud Nature Break package</option>
+        <option>Kodaikanal Highlights</option>
+        <option>Yercaud Nature Break</option>
         <option>Room / villa only</option>
         <option>Stay + pickup / drop</option>
         <option>Stay + pickup + guide</option>
@@ -285,11 +263,11 @@
       </select>
 
       <label for="notes">Pickup location / extra details <span>(optional)</span></label>
-      <textarea id="notes" name="notes" rows="3" maxlength="500" placeholder="Pickup point, room preference, budget or anything else..."></textarea>
+      <textarea id="notes" name="notes" rows="3" maxlength="500" placeholder="Pickup point, room preference, budget..."></textarea>
 
-      <button class="button button-dark submit-button" type="submit">Send enquiry on WhatsApp <span>↗</span></button>
-      <p class="form-status" id="message" role="status" aria-live="polite"></p>
-      <p class="privacy-note">This sends an enquiry through WhatsApp. It does not make a confirmed reservation or collect payment.</p>
+      <button type="submit" class="button button-dark submit-button">Send enquiry on WhatsApp ↗</button>
+      <p id="message" class="form-status" role="status" aria-live="polite"></p>
+      <p class="privacy-note">This sends an enquiry only. It does not confirm a reservation or collect a payment.</p>
     </form>
   </section>
 </main>
@@ -304,112 +282,8 @@
     <span>© <span id="year"></span> ADS Tours & Travels</span>
     <span>Kodaikanal · Yercaud · Tamil Nadu</span>
   </div>
-  <p class="photo-credit">Destination photographs are loaded from external websites. Check image licences and attribution requirements before commercial use.</p>
+  <p class="photo-credit">Images load from external sources. Confirm photo accuracy, permissions and commercial-use licences before publishing.</p>
 </footer>
 
-<script>
-  // Business WhatsApp number: country code + number, digits only.
-  const WHATSAPP_NUMBER = "919345587325";
-
-  const form = document.getElementById("bookingForm");
-  const status = document.getElementById("message");
-  const dateField = document.getElementById("date");
-
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  const today = new Date();
-  dateField.min = [
-    today.getFullYear(),
-    String(today.getMonth() + 1).padStart(2, "0"),
-    String(today.getDate()).padStart(2, "0")
-  ].join("-");
-
-  // Preselect destination/package from links and package buttons.
-  document.querySelectorAll("[data-destination]").forEach(link => {
-    link.addEventListener("click", () => {
-      document.getElementById("destination").value = link.dataset.destination;
-    });
-  });
-
-  document.querySelectorAll("[data-package]").forEach(link => {
-    link.addEventListener("click", () => {
-      document.getElementById("package").value = link.dataset.package;
-    });
-  });
-
-  // Mobile navigation.
-  document.getElementById("menuToggle").addEventListener("click", () => {
-    const nav = document.getElementById("mainNav");
-    const open = nav.classList.toggle("is-open");
-    document.getElementById("menuToggle").setAttribute("aria-expanded", String(open));
-    document.getElementById("menuToggle").textContent = open ? "✕" : "☰";
-  });
-
-  document.querySelectorAll("#mainNav a").forEach(link => {
-    link.addEventListener("click", () => {
-      document.getElementById("mainNav").classList.remove("is-open");
-      document.getElementById("menuToggle").setAttribute("aria-expanded", "false");
-      document.getElementById("menuToggle").textContent = "☰";
-    });
-  });
-
-  // Reveal animations when sections scroll into view.
-  const revealObserver = "IntersectionObserver" in window
-    ? new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12 })
-    : null;
-
-  document.querySelectorAll(".reveal").forEach(element => {
-    if (revealObserver) revealObserver.observe(element);
-    else element.classList.add("is-visible");
-  });
-
-  // Send the completed enquiry to WhatsApp.
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-
-    if (!/^\d{10,15}$/.test(WHATSAPP_NUMBER)) {
-      status.textContent = "Please set the correct business WhatsApp number in the code.";
-      return;
-    }
-
-    const data = new FormData(form);
-    const customerPhone = String(data.get("phone") || "").trim();
-
-    if (!/^\+?[\d\s()-]{10,18}$/.test(customerPhone)) {
-      status.textContent = "Please enter a valid mobile number.";
-      return;
-    }
-
-    const enquiry = [
-      "Hi ADS Tours & Travels! I'd like to enquire about a trip.",
-      "",
-      "Name: " + data.get("name"),
-      "Customer mobile: " + data.get("phone"),
-      "Destination: " + data.get("destination"),
-      "Travel date: " + data.get("date"),
-      "Group size: " + data.get("guests"),
-      "Trip duration: " + data.get("duration"),
-      "Requirement: " + data.get("package"),
-      data.get("notes") ? "Extra details: " + data.get("notes") : "",
-      "",
-      "Please confirm availability and the final price. This is an enquiry, not a confirmed booking."
-    ].filter(Boolean).join("\n");
-
-    status.textContent = "Opening WhatsApp. Please review the details and press Send.";
-
-    window.open(
-      "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(enquiry),
-      "_blank",
-      "noopener,noreferrer"
-    );
-  });
-</script>
 </body>
 </html>
